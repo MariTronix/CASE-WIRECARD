@@ -1,6 +1,3 @@
-import { PaymentController } from './controller/PaymentController';
-import { CardController } from "./controller/CardController"
-import { UserController } from "./controller/UserController"
 import { userRouter } from './bussiness/routes/UserRouter';
 import { paymentRouter } from './bussiness/routes/PaymentRouter';
 import { cardRouter } from './bussiness/routes/CardRouter';
