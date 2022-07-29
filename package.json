@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "migrations": "tsnd ./src/data/migration/Migration.ts",
     "start": "node ./build/index.js",
     "dev": "ts-node-dev ./src/index.ts",
-    "postinstall": "tsc"
+    "migrations": "tsnd ./src/data/migration/Migration.ts",  
+    "postinstall": "tsc",
+    "test": "jest"
   },
   "engines": {
     "node": "v16.15.1"
