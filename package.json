@@ -7,8 +7,7 @@
     "start": "node ./build/index.js",
     "dev": "ts-node-dev ./src/index.ts",
     "migrations": "tsnd ./src/data/migration/Migration.ts",  
-    "postinstall": "tsc",
-    "test": "jest"
+    "postinstall": "tsc"
   },
   "engines": {
     "node": "v16.15.1"
