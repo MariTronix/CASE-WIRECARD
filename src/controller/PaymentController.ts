@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import paymentBussiness  from '../business/PaymentBusiness';
 
-
 export class PaymentController {
     public async makeCreditPayment(req: Request, res: Response){
         try{
