@@ -1,9 +1,9 @@
+import { Authenticator } from './../services/Authenticator';
+import { UserDatabase } from './../data/UserDatabase';
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { User } from '../model/User';
-import { Authenticator } from "../services/Authenticator";
-import { UserDatabase } from "../data/UserDatabase";
-import { CustomError } from "../error/CustomError";
+import { CustomError } from '../error/CustomError';
 
 export class UserBussiness {
     constructor(
