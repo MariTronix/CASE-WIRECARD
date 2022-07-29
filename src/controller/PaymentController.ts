@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import PaymentBussiness  from './../business/PaymentBusines'
+import PaymentBussiness  from './../business/PaymentBusiness';
 
 export class PaymentController {
     public async makeCreditPayment(req: Request, res: Response){
