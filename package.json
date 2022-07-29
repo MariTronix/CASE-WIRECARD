@@ -13,10 +13,6 @@
   "engines": {
     "node": "v16.15.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MariTronix/Case-Wirecard.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
