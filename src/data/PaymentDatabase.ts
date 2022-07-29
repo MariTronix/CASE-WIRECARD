@@ -4,49 +4,18 @@ import BaseDatabase from './BaseDatabase';
 
 export class PaymentDatabase extends BaseDatabase {
 
-    protected tableName: string = "payment_wirecard";
-
-    private toModelCredit(dbModel?: any): CreditPayment | undefined {
-        return (
-           dbModel &&
-           new CreditPayment(
-              dbModel.id,
-              dbModel.amount,
-              dbModel.payment,
-              dbModel.credit_card,
-              dbModel.payment_situation,
-              dbModel.user_id
-           )
-        );
-     }
-
-     private toModelTickt(dbModel?: any): TicketPayment | undefined {
-        return (
-           dbModel &&
-           new TicketPayment(
-            dbModel.id,
-            dbModel.amount,
-            dbModel.payment,
-            dbModel.payment_situation,
-            dbModel.id_ticket,
-            dbModel.user_id
-           )
-        );
-     }
+    protected TABLE_NAME: string = "payment_wirecard";
 
     public async makeCreditPayment(payment: CreditPayment): Promise<void> {
         try{
-            await BaseDatabase.connection.raw(`
-                INSERT INTO ${this.tableName} (id, amount, payment, credit_card, payment_situation, user_id)
-                VALUES (
-                '${payment.getId()}', 
-                '${payment.getAmount()}', 
-                '${payment.getPayment()}',
-                '${payment.getCreditCard()}',
-                '${payment.getPaymentSituation()}',
-                '${payment.getUserId()}'
-                )`
-            )
+            await BaseDatabase.connection(this.TABLE_NAME).insert({
+                id: payment.getId(), 
+                amount: payment.getAmount(), 
+                payment: payment.getPayment(),
+                credit_card: payment.getCreditCard(),
+                payment_situation: payment.getPaymentSituation(),
+                user_id: payment.getUserId()
+            });
         }catch (error: any) {
             throw new Error(error.sqlMessage || error.message)
         }
@@ -54,17 +23,14 @@ export class PaymentDatabase extends BaseDatabase {
 
     public async makeTicketPayment(payment: TicketPayment): Promise<void> {
         try{
-            await BaseDatabase.connection.raw(`
-                INSERT INTO ${this.tableName} (id, amount , payment, payment_situation, id_ticket, user_id)
-                VALUES (
-                '${payment.getId()}', 
-                '${payment.getAmount()}', 
-                '${payment.getPayment()}',
-                '${payment.getPaymentSituation()}',
-                '${payment.getIdTicket()}',
-                '${payment.getUserId()}'
-            )`
-        );
+            await BaseDatabase.connection(this.TABLE_NAME).insert({
+                id: payment.getId(), 
+                amount: payment.getAmount(), 
+                payment: payment.getPayment(),
+                payment_situation: payment.getPaymentSituation(),
+                id_ticket: payment.getIdTicket(),
+                user_id: payment.getUserId()
+            });
         }catch (error: any) {
             throw new Error(error.sqlMessage || error.message)
         };
@@ -72,7 +38,7 @@ export class PaymentDatabase extends BaseDatabase {
 
     public async getPaymentUserId(id: string): Promise<any>{
         try {
-            const result = await BaseDatabase.connection(this.tableName)
+            const result = await BaseDatabase.connection(this.TABLE_NAME)
             .select("*")
             .where({user_id: id})
             return result[0]
