@@ -23,7 +23,8 @@ Você precisará construir um aplicativo simples para fornecer uma API para paga
 
 <h2 id="documentação">🚨 Documentação do Postman</h2>
 
-- [Postman]()
+- [Postman](https://documenter.getpostman.com/view/20351771/UzXYssuZ)
+- [Deploy Heroku](https://case-wirecard-mariana.herokuapp.com/)
 
 <h2 id="features">✔️ Features</h2>
 
