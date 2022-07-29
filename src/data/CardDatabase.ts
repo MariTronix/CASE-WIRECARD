@@ -4,43 +4,29 @@ import BaseDatabase  from "./BaseDatabase";
 
 export class CardDatabase extends BaseDatabase {
 
-    protected tableName: string = "card_wirecard";
-
-    private toModel(dbModel?: any): Card | undefined {
-        return(dbModel && new Card (
-            dbModel.id,
-            dbModel.number,
-            dbModel.name,
-            dbModel.expiration,
-            dbModel.cvv,
-            dbModel.user_id
-        ));
-    };
+    protected TABLE_NAME: string = "card_wirecard";
 
     public async createCard(card: Card): Promise<void> {
         try{
-            await BaseDatabase.connection.raw(`
-                INSERT INTO ${this.tableName} (id, number, name, expiration, cvv, user_id)
-                VALUES (
-                '${card.getId()}', 
-                '${card.getNumber()}', 
-                '${card.getName()}',
-                '${card.getExpiration()}',
-                '${card.getCVV()}',
-                '${card.getUserId()}'
-            )`
-        );
+            await BaseDatabase.connection(this.TABLE_NAME).insert({
+                id: card.getId(), 
+                NUMBER: card.getNumber(), 
+                name: card.getName(),
+                expiration: card.getExpiration(),
+                cvv: card.getCVV(),
+                user_id: card.getUserId()
+            });
         }catch (error: any) {
             throw new Error(error.sqlMessage || error.message)
         };
     }
 
-    public async getCardById(id: string): Promise<Card | undefined> {
+    public async getCardById(id: string): Promise<Card[]> {
         try{
-            const result = await BaseDatabase.connection.raw(`
-                SELECT * from ${this.tableName} WHERE id = '${id}'
-            `);
-            return this.toModel(result[0][0]);
+            const [result] = await BaseDatabase.connection(this.TABLE_NAME).where(
+                "id", id
+            )
+            return result
         }catch(error: any){
             throw new Error(error.sqlMessage || error.message)
         }

@@ -1,5 +1,5 @@
-import { PaymentController } from './../../controller/PaymentController';
-import { UserController } from './../../controller/UserController';
+import { PaymentController } from './../controller/PaymentController';
+import { UserController } from './../controller/UserController';
 import express from "express";
 
 export const userRouter = express.Router();
