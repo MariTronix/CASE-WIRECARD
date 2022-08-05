@@ -3,7 +3,7 @@ export interface CardDTO {
     name: string,
     expiration: string,
     cvv: string,
-    user_id: string
+    token: string
 };
 
 export interface CardMockDTO {
@@ -12,5 +12,5 @@ export interface CardMockDTO {
     name: string,
     expiration: string,
     cvv: string,
-    user_id: string
+    token: string
 };

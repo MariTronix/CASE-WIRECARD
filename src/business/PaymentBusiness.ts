@@ -1,3 +1,4 @@
+import { TicketPaymentDTO } from './../type/DTO/PaymentDTO';
 import { UserDatabase } from './../data/UserDatabase';
 import { UserBussiness } from './UserBusiness';
 import { Authenticator } from './../services/Authenticator';
@@ -6,6 +7,7 @@ import { PaymentDatabase } from './../data/PaymentDatabase';
 import { IdGenerator } from './../services/IdGenerator';
 import { CreditPayment, TicketPayment } from '../model/Payment';
 import { CustomError } from '../error/CustomError';
+import { CreditPaymentDTO } from '../type/DTO/PaymentDTO';
 
 export class PaymentBussiness {
     constructor(
@@ -15,12 +17,10 @@ export class PaymentBussiness {
         private paymentDatabase: PaymentDatabase
     ){}
 
-    public async makeCreditPayment(
-        amount: number, 
-        credit_card: string,
-        token: string
-        ){
+    public async makeCreditPayment(input: CreditPaymentDTO): Promise<void> {
             try{
+                const { amount, credit_card, token } = input;
+
                 if(!amount){
                     throw new CustomError(422,"The amount input is empty");
                 };
@@ -51,8 +51,10 @@ export class PaymentBussiness {
             };                    
     };
 
-    public async makeTicketPayment(amount: number, token: string){
+    public async makeTicketPayment(input: TicketPaymentDTO){
         try{
+            const { amount, token, ticket_id } = input;
+
             if(!amount){
                 throw new CustomError(422,"The amount input is empty");
             };
@@ -70,7 +72,7 @@ export class PaymentBussiness {
 
         await this.paymentDatabase.makeTicketPayment(payment)
 
-        return ticketId
+        return ticket_id
 
         }catch (error: any){
             throw new CustomError(error.statusCode, error.message)

@@ -23,9 +23,8 @@ export class CardDatabase extends BaseDatabase {
 
     public async getCardById(id: string): Promise<Card[]> {
         try{
-            const [result] = await BaseDatabase.connection(this.TABLE_NAME).where(
-                "id", id
-            )
+            const [result] = await BaseDatabase.connection(this.TABLE_NAME)
+            .where("id", id)
             return result
         }catch(error: any){
             throw new Error(error.sqlMessage || error.message)
