@@ -4,6 +4,7 @@ import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { User } from '../model/User';
 import { CustomError } from '../error/CustomError';
+import { loginDTO, UserDTO } from '../type/DTO/UserDTO';
 
 export class UserBussiness {
     constructor(
@@ -13,13 +14,9 @@ export class UserBussiness {
         private userDatabase: UserDatabase
     ){}
 
-    public async singup(
-        name: string,
-        email: string,
-        cpf: string,
-        password: string
-    ){
+    public async singup(input: UserDTO): Promise<void>{
         try{
+            const { name, email, cpf, password} = input
 
             if(!name) {
                 throw new CustomError(422,"The name input is empty");
@@ -47,14 +44,15 @@ export class UserBussiness {
             const cypherPassword = await this.hashManager.hash(password);
             const user = new User(id, name, email, cpf, cypherPassword)
 
-            await this.userDatabase.insertUser(user)
+            await this.userDatabase.insertUser(user);
         } catch (error: any){
             throw new CustomError(error.statusCode, error.message)
         };    
     };
 
-    public async login(email: string, password: string){
+    public async login(input: loginDTO){
         try{
+            const { email, password } = input
             if(!email){
                 throw new CustomError(422,"The email input is empty");
             } else if (email.indexOf("@") === -1){

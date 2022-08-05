@@ -1,3 +1,4 @@
+import { CardDTO } from './../type/DTO/CardDTO';
 import { Card } from './../model/Card';
 import { CardDatabase } from './../data/CardDatabase';
 import { HashManager } from '../services/HashManager';
@@ -13,14 +14,9 @@ export class CardBussiness {
         private authenticator: Authenticator,
     ){}
 
-    public async insertCard(
-        number: string,
-        name: string, 
-        expiration: string, 
-        cvv: string, 
-        token: string
-        ){
+    public async insertCard(input: CardDTO): Promise<void> {
             try{
+                const {number, name, expiration, cvv, token} = input
                 if(!number){
                     throw new CustomError(422,"The number input is empty");
                 } else if(number.length < 16) {
@@ -42,7 +38,7 @@ export class CardBussiness {
                 };
 
                 if(!token){
-                    throw new CustomError(422,"You have to login to create a card");
+                    throw new CustomError(422,"Verify you authorization");
                 };
 
                 const id = this.idGenerator.generateId();
